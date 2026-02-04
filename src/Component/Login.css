@@ -1,0 +1,115 @@
+.login-container {
+  width: 350px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.login-container h1 {
+  margin-bottom: 20px;
+}
+
+.login-container label {
+  display: block;
+  text-align: left;
+  margin: 10px 0 5px;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.btn-group {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-group button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-group button:first-child {
+  background-color: #ffcc00;
+}
+
+.btn-group button:last-child {
+  background-color: #ddd;
+}
+.login-container {
+  width: 350px;
+  margin: 60px auto;
+  padding: 30px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-container label {
+  font-weight: 600;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 15px;
+}
+
+.signin-main {
+  width: 100%;
+  padding: 10px;
+  background: #238636;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.divider {
+  text-align: center;
+  margin: 15px 0;
+  color: #888;
+}
+
+.social-btn {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.social-btn.google {
+  background: #fff;
+}
+
+.social-btn.apple {
+  background: #000;
+  color: #fff;
+}
+
+.reset-btn {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  background: #eee;
+  border: none;
+  cursor: pointer;
+}
