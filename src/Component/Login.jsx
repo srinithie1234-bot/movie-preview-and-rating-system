@@ -2,33 +2,28 @@ import { useState } from "react";
 import "./Login.css";
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(
-        "http://localhost:8080/api/users/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+    localStorage.setItem("loggedInUser", username);
+    alert("Login successful");
+  };
 
-      const data = await response.text();
+  const handleReset = () => {
+    setUsername("");
+    setPassword("");
+  };
 
-      if (data === "Login successful") {
-        localStorage.setItem("loggedInUser", email);
-        alert("Login successful");
-      } else {
-        alert(data);
-      }
-    } catch (error) {
-      alert("Server error");
-    }
+  // 🔹 Dummy handlers (UI only)
+  const handleGoogleLogin = () => {
+    alert("Google login coming soon 🚀");
+  };
+
+  const handleAppleLogin = () => {
+    alert("Apple login coming soon 🍎");
   };
 
   return (
@@ -36,22 +31,44 @@ export const Login = () => {
       <h1>Sign in</h1>
 
       <form onSubmit={handleSubmit}>
+        <label>Username or Email</label>
         <input
           type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required />
+          placeholder="example@gmail.com"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
 
+        <label>Password</label>
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Enter password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required />
+          required
+        />
 
-        <button type="submit">Login</button>
+        <button className="signin-main" type="submit">
+          Sign in
+        </button>
       </form>
+
+      <div className="divider">or</div>
+
+      {/* 🔵 Google */}
+      <button className="social-btn google" onClick={handleGoogleLogin}>
+        Continue with Google
+      </button>
+
+      {/* ⚫ Apple */}
+      <button className="social-btn apple" onClick={handleAppleLogin}>
+        Continue with Apple
+      </button>
+
+      <button className="reset-btn" onClick={handleReset}>
+        Reset
+      </button>
     </div>
   );
 };
