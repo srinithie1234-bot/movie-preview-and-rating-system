@@ -2,12 +2,12 @@ import { useState } from "react";
 import "./Register.css";
 
 export const Register = () => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -15,31 +15,28 @@ export const Register = () => {
       return;
     }
 
-    // 🔹 get existing users
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/users/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        }
+      );
 
-    // 🔹 check already registered
-    const userExists = users.find((u) => u.email === email);
-    if (userExists) {
-      alert("User already registered with this email");
-      return;
+      const data = await response.text();
+      alert(data);
+
+      if (data === "Registration successful") {
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      }
+    } catch (error) {
+      alert("Server error");
     }
-
-    // 🔹 save user
-    users.push({
-      username,
-      email,
-      password,
-    });
-
-    localStorage.setItem("users", JSON.stringify(users));
-
-    alert("Registration Successful!");
-
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
   };
 
   return (
@@ -47,37 +44,19 @@ export const Register = () => {
       <h1>Register</h1>
 
       <form onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+        <input type="text" placeholder="Name"
+          value={name} onChange={(e) => setName(e.target.value)} required />
 
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <input type="email" placeholder="Email"
+          value={email} onChange={(e) => setEmail(e.target.value)} required />
 
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <input type="password" placeholder="Password"
+          value={password} onChange={(e) => setPassword(e.target.value)} required />
 
-        <label>Confirm Password</label>
-        <input
-          type="password"
+        <input type="password" placeholder="Confirm Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
+          required />
 
         <button type="submit">Register</button>
       </form>

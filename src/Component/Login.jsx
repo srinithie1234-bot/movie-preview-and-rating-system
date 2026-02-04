@@ -2,27 +2,33 @@ import { useState } from "react";
 import "./Login.css";
 
 export const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/users/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
-    // 🔍 find matching user
-    const validUser = users.find(
-      (u) => u.email === username && u.password === password
-    );
+      const data = await response.text();
 
-    if (!validUser) {
-      alert("Invalid email or password");
-      return;
+      if (data === "Login successful") {
+        localStorage.setItem("loggedInUser", email);
+        alert("Login successful");
+      } else {
+        alert(data);
+      }
+    } catch (error) {
+      alert("Server error");
     }
-
-    // ✅ login success
-    localStorage.setItem("loggedInUser", validUser.username);
-    alert("Login successful");
   };
 
   return (
@@ -30,25 +36,21 @@ export const Login = () => {
       <h1>Sign in</h1>
 
       <form onSubmit={handleSubmit}>
-        <label>Email</label>
         <input
           type="email"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required />
 
-        <label>Password</label>
         <input
           type="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          required />
 
-        <button className="signin-main" type="submit">
-          Sign in
-        </button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );
