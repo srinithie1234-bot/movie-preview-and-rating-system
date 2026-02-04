@@ -15,9 +15,27 @@ export const Register = () => {
       return;
     }
 
+    // 🔹 get existing users
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // 🔹 check already registered
+    const userExists = users.find((u) => u.email === email);
+    if (userExists) {
+      alert("User already registered with this email");
+      return;
+    }
+
+    // 🔹 save user
+    users.push({
+      username,
+      email,
+      password,
+    });
+
+    localStorage.setItem("users", JSON.stringify(users));
+
     alert("Registration Successful!");
-    
-    // clear form
+
     setUsername("");
     setEmail("");
     setPassword("");
@@ -32,7 +50,6 @@ export const Register = () => {
         <label>Username</label>
         <input
           type="text"
-          placeholder="Enter username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -41,7 +58,6 @@ export const Register = () => {
         <label>Email</label>
         <input
           type="email"
-          placeholder="example@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -50,7 +66,6 @@ export const Register = () => {
         <label>Password</label>
         <input
           type="password"
-          placeholder="Enter password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -59,7 +74,6 @@ export const Register = () => {
         <label>Confirm Password</label>
         <input
           type="password"
-          placeholder="Confirm password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
@@ -70,3 +84,5 @@ export const Register = () => {
     </div>
   );
 };
+
+export default Register;

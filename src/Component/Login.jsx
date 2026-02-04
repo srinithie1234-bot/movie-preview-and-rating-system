@@ -8,22 +8,21 @@ export const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    localStorage.setItem("loggedInUser", username);
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // 🔍 find matching user
+    const validUser = users.find(
+      (u) => u.email === username && u.password === password
+    );
+
+    if (!validUser) {
+      alert("Invalid email or password");
+      return;
+    }
+
+    // ✅ login success
+    localStorage.setItem("loggedInUser", validUser.username);
     alert("Login successful");
-  };
-
-  const handleReset = () => {
-    setUsername("");
-    setPassword("");
-  };
-
-  // 🔹 Dummy handlers (UI only)
-  const handleGoogleLogin = () => {
-    alert("Google login coming soon 🚀");
-  };
-
-  const handleAppleLogin = () => {
-    alert("Apple login coming soon 🍎");
   };
 
   return (
@@ -31,10 +30,9 @@ export const Login = () => {
       <h1>Sign in</h1>
 
       <form onSubmit={handleSubmit}>
-        <label>Username or Email</label>
+        <label>Email</label>
         <input
           type="email"
-          placeholder="example@gmail.com"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -43,7 +41,6 @@ export const Login = () => {
         <label>Password</label>
         <input
           type="password"
-          placeholder="Enter password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -53,22 +50,6 @@ export const Login = () => {
           Sign in
         </button>
       </form>
-
-      <div className="divider">or</div>
-
-      {/* 🔵 Google */}
-      <button className="social-btn google" onClick={handleGoogleLogin}>
-        Continue with Google
-      </button>
-
-      {/* ⚫ Apple */}
-      <button className="social-btn apple" onClick={handleAppleLogin}>
-        Continue with Apple
-      </button>
-
-      <button className="reset-btn" onClick={handleReset}>
-        Reset
-      </button>
     </div>
   );
 };
